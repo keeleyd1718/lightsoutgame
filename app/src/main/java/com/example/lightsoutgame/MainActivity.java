@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button b22 = null;
     private Button b23 = null;
     private Button b24 = null;
+    private Button reset = null;
     public Button[] board = new Button[25];//an array to keep track of the board buttons
 
     public boolean[] color = new boolean[25];//an array to keep track of the buttons colors
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         board[22] = findViewById(R.id.b22);
         board[23] = findViewById(R.id.b23);
         board[24] = findViewById(R.id.b24);
+        reset = findViewById(R.id.reset);//button to reset game
 
         b0.setOnClickListener(this);
         b1.setOnClickListener(this);
@@ -100,8 +102,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         b22.setOnClickListener(this);
         b23.setOnClickListener(this);
         b24.setOnClickListener(this);
+        reset.setOnClickListener(this);
 
-        boardStart();
+        boardStart();//start the game by initializing the color array with true/false values
+        
         if(gameOver()){
             String s = "Congrats you won";
         }
@@ -136,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return;
             }
         }
-        //increasing j by one to point to the next button and change its value
+        //increasing j by one to point to the right button and change its value
         j++;
         if(color[j]){
             color[j] = false;
@@ -577,6 +581,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             else if(color[j] == false){
                 color[j] = true;
             }
+        }
+        else if(view.getId() == R.id.reset){
+            //change all the values back to new random true/false values
+            boardStart();
         }
 
         //going through all the buttons and making their color align with their boolean value
