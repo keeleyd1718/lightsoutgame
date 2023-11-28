@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.Random;
 
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button b23 = null;
     private Button b24 = null;
     private Button reset = null;
+    private TextView text = null;
     public Button[] board = new Button[25];//an array to keep track of the board buttons
 
     public boolean[] color = new boolean[25];//an array to keep track of the buttons colors
@@ -76,39 +78,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         board[23] = findViewById(R.id.b23);
         board[24] = findViewById(R.id.b24);
         reset = findViewById(R.id.reset);//button to reset game
+        text = findViewById(R.id.textView);//textview to display instructions/winning message
 
-        b0.setOnClickListener(this);
-        b1.setOnClickListener(this);
-        b2.setOnClickListener(this);
-        b3.setOnClickListener(this);
-        b4.setOnClickListener(this);
-        b5.setOnClickListener(this);
-        b6.setOnClickListener(this);
-        b7.setOnClickListener(this);
-        b8.setOnClickListener(this);
-        b9.setOnClickListener(this);
-        b10.setOnClickListener(this);
-        b11.setOnClickListener(this);
-        b12.setOnClickListener(this);
-        b13.setOnClickListener(this);
-        b14.setOnClickListener(this);
-        b15.setOnClickListener(this);
-        b16.setOnClickListener(this);
-        b17.setOnClickListener(this);
-        b18.setOnClickListener(this);
-        b19.setOnClickListener(this);
-        b20.setOnClickListener(this);
-        b21.setOnClickListener(this);
-        b22.setOnClickListener(this);
-        b23.setOnClickListener(this);
-        b24.setOnClickListener(this);
+        for(int i = 0; i < 25; i++){
+            board[i].setOnClickListener(this);
+        }
         reset.setOnClickListener(this);
 
         boardStart();//start the game by initializing the color array with true/false values
-        
-        if(gameOver()){
-            String s = "Congrats you won";
-        }
     }
 
     //randomly filling the color array with either true or false
@@ -116,6 +93,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Random rand = new Random();
         for(int i = 0; i < 25; i++){
             color[i] = rand.nextBoolean();
+        }
+
+        //going through all the buttons and making their color align with their boolean value
+        for(int i = 0; i < 25; i++){
+            if(color[i]){
+                board[i].setBackgroundColor(Color.WHITE);
+            }
+            else{
+                board[i].setBackgroundColor(Color.BLACK);
+            }
         }
     }
 
@@ -200,7 +187,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             color[j] = true;
         }
     }
-
 
     @Override
     public void onClick(View view) {
@@ -590,11 +576,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //going through all the buttons and making their color align with their boolean value
         for(int i = 0; i < 25; i++){
             if(color[i]){
-                board[i].setBackgroundColor(Color.BLACK);
-            }
-            else{
                 board[i].setBackgroundColor(Color.WHITE);
             }
+            else{
+                board[i].setBackgroundColor(Color.BLACK);
+            }
+        }
+
+        //change instruction message to congrats message if the player has won
+        if(gameOver()){
+            text.setText("Congrats you won!!");
         }
     }
 }
